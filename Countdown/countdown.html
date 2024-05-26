@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(238, 245, 243);
+        }
+        .section-center {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .giveaway-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 40px;
+            
+        }
+        .gift-img img {
+            max-width: 500px;
+            height: auto;
+        }
+        h3{
+            font-size: 30px;
+            color:rgb(45, 45, 114)
+        }
+        .gift-info{
+            max-width: 500px;
+            height: auto;
+        }
+    
+        .deadline-format {
+            display: flex;
+            gap: 10px;
+            /*background-color: black;*/
+            color: white;
+            padding: 10px;
+        }
+        .deadline-format div {
+            text-align: center;
+            border: 2px solid white;
+            background-color: black;
+            padding: 5px;
+            flex: 1;
+            /*gap: 5px;*/
+        }
+        .deadline-format h4 {
+            margin: 0;
+            font-size: 20px;
+        }
+        .deadline-format span {
+            display: block;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <section class="section-center">
+        <div class="giveaway-container">
+            <article class="gift-img">
+                <img src="countdown.avif" alt="Countdown Image">
+            </article>
+            <article class="gift-info">
+                <h3>Old Laptop Giveaway</h3>
+                <h4 class="giveaway">
+                    Giveaway ends on Sunday, 24 April 2020, 8:00am
+                </h4>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                    Facere mollitia consectetur expedita saepe sunt harum iure, culpa minus eius architecto ullam id, soluta ad, neque est. Quod, consectetur. Corrupti, eos?
+                </p>
+            
+                <div class="deadline-format">
+                    <div>
+                        <h4 class="days">34</h4>
+                        <span>days</span>
+                    </div>
+                    <div>
+                        <h4 class="hours">34</h4>
+                        <span>hours</span>
+                    </div>
+                    <div>
+                        <h4 class="mins">34</h4>
+                        <span>mins</span>
+                    </div>
+                    <div>
+                        <h4 class="secs">34</h4>
+                        <span>secs</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- script -->
+    <script>
+        const months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        const weekdays = [
+            "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
+        ];
+
+        const giveaway = document.querySelector(".giveaway");
+        const deadline = document.querySelector(".deadline");
+        const items = document.querySelectorAll(".deadline-format h4");
+
+        let tempDate = new Date();
+        let tempYear = tempDate.getFullYear();
+        let tempMonth = tempDate.getMonth();
+        let tempDay = tempDate.getDate();
+
+        const futureDate = new Date(tempYear, tempMonth, tempDay + 10, 11, 30, 0);
+        const year = futureDate.getFullYear();
+        const hours = futureDate.getHours();
+        const minutes = futureDate.getMinutes();
+
+        let month = futureDate.getMonth();
+        month = months[month];
+        const date = futureDate.getDate();
+
+        const weekday = weekdays[futureDate.getDay()];
+
+        giveaway.textContent = `Giveaway ends on ${weekday}, ${date} ${month} ${year} ${hours}:${minutes}am`;
+
+        const futureTime = futureDate.getTime();
+
+        function getRemainingTime(){
+            const today = new Date().getTime();
+            const t = futureTime - today;
+
+            const oneDay = 24 * 60 * 60 * 1000;
+            const oneHour = 60 * 60 * 1000;
+            const oneMinute = 60 * 1000;
+
+            let days = Math.floor(t / oneDay);
+            let hours = Math.floor((t % oneDay) / oneHour);
+            let minutes = Math.floor((t % oneHour) / oneMinute);
+            let seconds = Math.floor((t % oneMinute) / 1000);
+
+            const values = [days, hours, minutes, seconds];
+
+            function format(item) {
+                if (item < 10) {
+                    return `0${item}`;
+                }
+                return item;
+            }
+
+            items.forEach(function (item, index){
+                item.innerHTML = format(values[index]);
+            });
+
+            if (t < 0){
+                clearInterval(countdown);
+                deadline.innerHTML = `<h4 class="expired">Sorry, this giveaway has expired</h4>`;
+            }
+        }
+
+        let countdown = setInterval(getRemainingTime, 1000);
+        getRemainingTime();
+    </script>
+</body>
+</html>

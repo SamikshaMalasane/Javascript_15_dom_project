@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgb(211, 207, 207);
+    color: white;
+    position: relative;
+}
+
+header img {
+    height: 50px;
+}
+
+.bars {
+    display: none;
+    cursor: pointer;
+    font-size: 30px;
+    color:rgb(28, 91, 237);;
+}
+
+nav#links {
+    display: flex;
+    gap: 20px;
+}
+
+nav#links a {
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px;
+}
+
+nav#links a:hover {
+    background-color: #575757;
+    border-radius: 4px;
+}
+
+/* Social media icons styling */
+.icons {
+    display: flex;
+    gap: 10px;
+}
+
+.icons a {
+    color:rgb(28, 91, 237);
+    font-size: 20px;
+}
+
+/* Rotate the bars icon when active */
+.rotate {
+    transform: rotate(90deg);
+    transition: transform 0.3s;
+}
+
+/* Responsive styling for smaller screens */
+@media (max-width: 768px) {
+    nav#links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: rgb(183, 178, 178);
+        position: absolute;
+        top: 60px;
+        left: 0;
+        padding: 10px 0;
+        z-index: 1;
+    }
+
+    nav#links.active {
+        display: flex;
+    }
+
+    .bars {
+        display: block;
+    }
+
+    .icons {
+        display: none;
+    }
+}

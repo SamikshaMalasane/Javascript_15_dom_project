@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.title h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.underline {
+    width: 100px;
+    height: 4px;
+    background: #f76c6c;
+    margin: 0 auto;
+}
+
+.review {
+    text-align: center;
+}
+
+.img-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 20px;
+    border: 4px solid #f76c6c;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+h4 {
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    color: #333;
+}
+
+#job {
+    text-transform: uppercase;
+    color: #f76c6c;
+    margin-bottom: 20px;
+}
+
+#info {
+    margin-bottom: 20px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #f76c6c;
+}
+
+.random-btn {
+    background: #f76c6c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.random-btn:hover {
+    background: #f44336;
+}

@@ -1,0 +1,94 @@
+body{
+    background-image: url("simpleb.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* semi-transparent black background */
+    display: grid;
+    place-items: center;
+    visibility: hidden;
+    z-index: -10;
+    transition: opacity 0.3s ease; /* Added transition property */
+}
+
+.open-model {
+    visibility: visible;
+    z-index: 10;
+}
+
+/* Modal Container */
+.modal-container {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    /* height: 30;  */
+    background:white; 
+    padding: 50px 0;
+    text-align: center;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 290px;
+    right: 450px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Style for the font awesome icon */
+.close-btn i {
+    font-size: 40px;
+    color: red; /* Adjust color as needed */
+    
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    /* height: 30; */
+    background:white; /* Example background color */
+    padding: 50px 0;
+    text-align: center;
+}
+
+.banner {
+    margin-bottom: 20px;
+}
+
+.banner h1 {
+    font-size: 40px;
+    color: #333; /* Adjust color as needed */
+}
+
+/* Modal Button */
+.modal-btn {
+    background: #007bff; /* Example background color */
+    color: #fff; /* Example text color */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-btn:hover {
+    background-color: aliceblue;
+    color: #007bff; /* Adjust color as needed */
+}

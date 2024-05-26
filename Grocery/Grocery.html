@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery Bud</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(201, 235, 225);
+        }
+        .section-center {
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+            background: #f1a1a1;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .grocery-form h3 {
+            margin-bottom: 15px;
+            font-size: 30px;
+        }
+        .form-control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .form-control input {
+            width: 80%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            height: 20px;
+
+        }
+        .form-control button {
+            background: rgb(81, 50, 22);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+            height: 35px;
+        }
+        .form-control button:hover {
+            background: rgb(24, 100, 100);
+        }
+        .alert {
+            color: rgb(230, 33, 59);
+            margin-bottom: 1rem;
+        }
+        .grocery-container {
+            margin-top: 2rem;
+        }
+        .grocery-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f1f5f8;
+            border-radius: 0.25rem;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .grocery-item .title {
+            margin: 0;
+        }
+        .btn-container {
+            display: flex;
+        }
+        .btn-container button {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            font-size: 1.2rem;
+        }
+        .clear-btn {
+            background: #164643;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        .clear-btn:hover {
+            background: rgb(33, 24, 20);
+        }
+        .show-container {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <section class="section-center">
+        <form class="grocery-form">
+            <p class="alert"></p>
+            <h3>Grocery Bud</h3>
+            <div class="form-control">
+                <input type="text" id="grocery" placeholder="add items">
+                <button type="submit" class="submit-btn">submit</button>
+            </div>
+        </form>
+        <div class="grocery-container">
+            <div class="grocery-list"></div>
+            <button type="button" class="clear-btn">Clear items</button>
+        </div>
+    </section>
+    <!-- script -->
+    <script>
+        const alert = document.querySelector(".alert");
+        const form = document.querySelector(".grocery-form");
+        const grocery = document.getElementById("grocery");
+        const submitBtn = document.querySelector(".submit-btn");
+        const container = document.querySelector(".grocery-container");
+        const list = document.querySelector(".grocery-list");
+        const clearBtn = document.querySelector(".clear-btn");
+
+        let editElement;
+        let editFlag = false;
+        let editID = "";
+
+        // event listeners
+        form.addEventListener("submit", addItem);
+        clearBtn.addEventListener("click", clearItems);
+        window.addEventListener("DOMContentLoaded", setupItems);
+
+        // functions
+        function addItem(e) {
+            e.preventDefault();
+            const value = grocery.value;
+            const id = new Date().getTime().toString();
+
+            if (value && !editFlag) {
+                createListItem(id, value);
+                displayAlert("item added to the list", "success");
+                container.classList.add("show-container");
+                addToLocalStorage(id, value);
+                setBackToDefault();
+            } else if (value && editFlag) {
+                editElement.innerHTML = value;
+                displayAlert("value changed", "success");
+                editLocalStorage(editID, value);
+                setBackToDefault();
+            } else {
+                displayAlert("please enter value", "danger");
+            }
+        }
+
+        function displayAlert(text, action) {
+            alert.textContent = text;
+            alert.classList.add(`alert-${action}`);
+
+            setTimeout(function () {
+                alert.textContent = "";
+                alert.classList.remove(`alert-${action}`);
+            }, 1000);
+        }
+
+        function clearItems() {
+            const items = document.querySelectorAll(".grocery-item");
+
+            if (items.length > 0) {
+                items.forEach(function (item) {
+                    list.removeChild(item);
+                });
+            }
+            container.classList.remove("show-container");
+            displayAlert("empty list", "danger");
+            setBackToDefault();
+            localStorage.removeItem("list");
+        }
+
+        function deleteItem(e) {
+            const element = e.currentTarget.parentElement.parentElement;
+            const id = element.dataset.id;
+            list.removeChild(element);
+
+            if (list.children.length === 0) {
+                container.classList.remove("show-container");
+            }
+            displayAlert("item removed", "danger");
+            setBackToDefault();
+            removeFromLocalStorage(id);
+        }
+
+        function editItem(e) {
+            const element = e.currentTarget.parentElement.parentElement;
+            editElement = e.currentTarget.parentElement.previousElementSibling;
+            grocery.value = editElement.innerHTML;
+            editFlag = true;
+            editID = element.dataset.id;
+            submitBtn.textContent = "edit";
+        }
+
+        function setBackToDefault() {
+            grocery.value = "";
+            editFlag = false;
+            editID = "";
+            submitBtn.textContent = "submit";
+        }
+
+        // local storage
+        function addToLocalStorage(id, value) {
+            const grocery = { id, value };
+            let items = getLocalStorage();
+            items.push(grocery);
+            localStorage.setItem("list", JSON.stringify(items));
+        }
+
+        function removeFromLocalStorage(id) {
+            let items = getLocalStorage();
+            items = items.filter(function (item) {
+                if (item.id !== id) {
+                    return item;
+                }
+            });
+            localStorage.setItem("list", JSON.stringify(items));
+        }
+
+        function editLocalStorage(id, value) {
+            let items = getLocalStorage();
+            items = items.map(function (item) {
+                if (item.id === id) {
+                    item.value = value;
+                }
+                return item;
+            });
+            localStorage.setItem("list", JSON.stringify(items));
+        }
+
+        function getLocalStorage() {
+            return localStorage.getItem("list") ? JSON.parse(localStorage.getItem("list")) : [];
+        }
+
+        function setupItems() {
+            let items = getLocalStorage();
+            if (items.length > 0) {
+                items.forEach(function (item) {
+                    createListItem(item.id, item.value);
+                });
+                container.classList.add("show-container");
+            }
+        }
+
+        function createListItem(id, value) {
+            const element = document.createElement("article");
+            element.classList.add("grocery-item");
+
+            const attr = document.createAttribute("data-id");
+            attr.value = id;
+            element.setAttributeNode(attr);
+            element.innerHTML = `<p class="title">${value}</p>
+                <div class="btn-container">
+                    <button type="button" class="edit-btn">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button type="button" class="delete-btn">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>`;
+            const deleteBtn = element.querySelector(".delete-btn");
+            const editBtn = element.querySelector(".edit-btn");
+            deleteBtn.addEventListener("click", deleteItem);
+            editBtn.addEventListener("click", editItem);
+            list.appendChild(element);
+        }
+    </script>
+</body>
+</html>

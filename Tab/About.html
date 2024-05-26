@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(222, 240, 234);
+        }
+        .section {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .title p {
+            font-size: 1rem;
+            color: #090101;
+        }
+        .about-center {
+            display: flex;
+            justify-content:center;
+            align-items: center;
+            gap: 30px;
+        
+        
+            
+        }
+        .about-center img {
+            max-width: 100%;
+            height: auto;
+            /*margin-bottom: 20px;*/
+            background-color: #ddd;
+            border-radius: 10px;
+           
+        }
+        .about {
+            /*max-width: 800px;*/
+            width: 150%;
+            background-color:white;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            
+    
+            /*margin-bottom: 20px;*/
+        }
+        .tab-btn {
+            background: #f4f4f4;
+            border: none;
+            border-top-left-radius: 10px;
+            width: 190px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition:  0.3s ease;
+        }
+        .tab-btn.active {
+            background: #ddd;
+            
+        }
+        .about-content {
+            display: none;
+        }
+        .about-content.active {
+            display: block;
+        }
+        .about-content h4 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            padding: 10px;
+        }
+        .about-content p {
+            font-size: 1rem;
+            color: #080000;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <section class="section">
+        <div class="title">
+            <h2>About Aadyogi</h2>
+            <p>
+                Adiyogi is the originator of yoga. From Sanskrit, adi means “first” and yogi refers to a practitioner of yoga.
+            </p>
+        </div>
+        <div class="about-center">
+            <article>
+                <img src="shiva.jpg" alt="about picture">
+            </article>
+            <article class="about">
+                <div class="btn-container">
+                    <button class="tab-btn active" data-id="history">History</button>
+                    <button class="tab-btn active" data-id="vision">Vision</button>
+                    <button class="tab-btn" data-id="goals">Goals</button>
+                </div>
+                <article class="about-content active" id="history">
+                    <h4>History</h4>
+                    <p>
+                        Adiyogi, meaning the "first yogi," is a title given to Lord Shiva, 
+                        considered the originator of yoga. According to Hindu mythology, 
+                        Shiva appeared thousands of years ago on the banks of the Kantisarovar 
+                        Lake in the Himalayas, deeply immersed in meditation.Attracting many seekers, 
+                        he imparted the knowledge of yoga to seven disciples, laying the foundation for
+                        various yoga systems. Adiyogi is symbolized in a meditative posture, representing
+                        enlightenment and inner peace. The 112-foot Adiyogi statue in Coimbatore, India, 
+                        consecrated by the Isha Foundation.
+                    </p>
+                </article>
+                <article class="about-content" id="vision">
+                    <h4>Vision</h4>
+                    <p>
+                        Adiyogi's vision is about guiding individuals toward self-realization, 
+                        inner peace, and universal consciousness through the practice of yoga. 
+                        It emphasizes an inward journey to explore one's true essence, balancing 
+                        physical, mental, and spiritual energies, and achieving harmony with the universe. 
+                        Adiyogi's teachings promote holistic well-being, inclusivity, and timeless wisdom, 
+                        encouraging personal growth and empowerment. Ultimately, his vision aims to create 
+                        a world where individuals live in harmony with themselves and the universe.
+                    </p>
+                </article>
+                <article class="about-content" id="goals">
+                    <h4>Goals</h4>
+                    <p>
+                        Adiyogi's goals are to guide individuals towards self-realization and inner peace 
+                        through yoga, emphasizing balance, harmony, and holistic well-being. He aims to 
+                        make yoga's wisdom accessible to all, promoting personal growth and empowerment. 
+                        Adiyogi envisions a world where individuals live in harmony with themselves and the universe, contributing positively to the world around them.
+                    </p>
+                </article> 
+            </article>
+        </div>
+    </section>
+
+    <!-- script -->
+    <script>
+        const btns = document.querySelectorAll(".tab-btn");
+        const about = document.querySelector(".about");
+        const articles = document.querySelectorAll(".about-content");
+
+        about.addEventListener("click", function(e){
+            const id = e.target.dataset.id;
+            if (id){
+                btns.forEach(function(btn){
+                    btn.classList.remove("active");
+                    e.target.classList.add("active");
+                });
+
+                articles.forEach(function(article){
+                    article.classList.remove("active");
+                });
+
+                const element = document.getElementById(id);
+                element.classList.add("active");
+            }
+        });
+    </script>
+</body>
+</html>
